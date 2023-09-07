@@ -1,10 +1,10 @@
 import {React, useEffect, useState} from "react";
 
 const UserTable = () => {
-    const [users, setUser] = useState([]);
+    const [users, setUsers] = useState([]);
 
     useEffect(()=>{
-        setUser(dummyUsers());
+        setUsers(dummyUsers());
     }, []);
 
     const dummyUsers = () => {
@@ -22,6 +22,17 @@ const UserTable = () => {
         return users;
     }
 
+    const addUser = (event) =>{
+        event.preventDefault();
+        const user = {
+            id: users.length,
+            name: "name "+users.length,
+            password: "pass"+users.length,
+            grade: randomInt(55, 100),
+        }
+        setUsers([...users, user]);
+    }
+
     const randomInt = (min, max) => {
         let num = Math.floor(Math.random() * (max - min + 1) + min); 
         return num;
@@ -30,6 +41,7 @@ const UserTable = () => {
 
     return(
         <>
+            <button onClick={(event)=>addUser(event)} className="btn btn-sm btn-secondary">Add User</button>
             <table className="table table-dark table-striped">
                 <thead>
                     <th>ID</th>
