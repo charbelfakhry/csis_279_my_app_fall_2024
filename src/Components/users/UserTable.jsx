@@ -1,4 +1,5 @@
 import {React, useEffect, useState} from "react";
+import UserForm from "./UserForm";
 
 const UserTable = () => {
     const [users, setUsers] = useState([]);
@@ -82,6 +83,7 @@ const UserTable = () => {
                     }
                 </tbody>
             </table>
+            <UserForm user="test" />
         </>
     )
 }
