@@ -3,6 +3,7 @@ import {React, useEffect, useState} from "react";
 const UserTable = () => {
     const [users, setUsers] = useState([]);
 
+    // on creation complete
     useEffect(()=>{
         setUsers(dummyUsers());
     }, []);
@@ -33,6 +34,22 @@ const UserTable = () => {
         setUsers([...users, user]);
     }
 
+    //Function for deleting user, with id as param
+    const deleteUser = (id) => {
+        const updatedUsers = users.filter(user => user.id !== id);
+        
+        // same as filter.
+        const filteredUsers = []
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].id !== id) {
+                filteredUsers.push(users[i]);
+            }
+        }
+        setUsers(filteredUsers);
+        // or
+        //setUsers(updatedUsers);
+    }
+
     const randomInt = (min, max) => {
         let num = Math.floor(Math.random() * (max - min + 1) + min); 
         return num;
@@ -58,6 +75,7 @@ const UserTable = () => {
                                     <td>{item.name}</td>
                                     <td>{item.passowrd}</td>
                                     <td>{item.grade}</td>
+                                    <td> <button onClick={()=>deleteUser(item.id)} className="btn btn-danger">Delete User </button></td>
                                 </tr>
                             )
                         })
