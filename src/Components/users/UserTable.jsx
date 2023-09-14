@@ -3,6 +3,7 @@ import UserForm from "./UserForm";
 
 const UserTable = () => {
     const [users, setUsers] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
 
     // on creation complete
     useEffect(()=>{
@@ -35,6 +36,11 @@ const UserTable = () => {
         setUsers([...users, user]);
     }
 
+    const selectUser = (user) =>{
+        console.log(user);
+        setSelectedUser(user);
+    }
+
     //Function for deleting user, with id as param
     const deleteUser = (id) => {
         const updatedUsers = users.filter(user => user.id !== id);
@@ -55,6 +61,47 @@ const UserTable = () => {
         let num = Math.floor(Math.random() * (max - min + 1) + min); 
         return num;
     }
+
+    const updateUser1 = (user) =>{
+
+        let updatedUsers = users;
+        console.log(users)
+        for(let i = 0; i < updatedUsers.length; i++)
+        {
+            let item = updatedUsers[i];
+            if(item.id === user?.id){
+                updatedUsers[i] = user;
+            }
+        }
+        console.log(updatedUsers);
+        setUsers(updatedUsers);
+
+    }
+
+    const updateUser2 = (user) =>{
+
+        let updatedUsers = users.map((item) => (
+            item.id === user.id ? {
+                id: user.id,
+                name: user.name,
+                password: user.password,
+                grade: user.grade
+            } : item)
+        )
+
+        setUsers(updatedUsers);
+
+    }
+
+    // const saveUser = () => {
+    //     let temp = editedUser;
+    //     temp.id = selectedUser.id;
+
+    //     let tempUsers = users.filter(u => u.id !== temp.id);
+    //     tempUsers.unshift(temp);
+
+    //     setUsers(tempUsers);
+    // };
     
 
     return(
@@ -77,13 +124,14 @@ const UserTable = () => {
                                     <td>{item.passowrd}</td>
                                     <td>{item.grade}</td>
                                     <td> <button onClick={()=>deleteUser(item.id)} className="btn btn-danger">Delete User </button></td>
+                                    <td> <button onClick={()=>selectUser(item)} className="btn btn-secondary">Select User </button></td>
                                 </tr>
                             )
                         })
                     }
                 </tbody>
             </table>
-            <UserForm user="test" />
+            <UserForm user={selectedUser} updateUser={updateUser2} />
         </>
     )
 }
