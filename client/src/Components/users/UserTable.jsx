@@ -1,5 +1,6 @@
 import {React, useEffect, useState} from "react";
 import UserForm from "./UserForm";
+import UserService from "../../services/UserService";
 
 const UserTable = () => {
     const [users, setUsers] = useState([]);
@@ -8,7 +9,14 @@ const UserTable = () => {
     // on creation complete
     useEffect(()=>{
         setUsers(dummyUsers());
+        loadUsersFromDB();
     }, []);
+
+    const loadUsersFromDB = async() =>{
+        let users = await UserService.loadUsers();
+        users = users?.data?.result;
+        console.log(users);
+    }
 
     const dummyUsers = () => {
         var users = [];
