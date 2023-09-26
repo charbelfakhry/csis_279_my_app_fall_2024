@@ -3,27 +3,31 @@ import { Link, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
 
     const navigate = useNavigate();
 
     useEffect(()=>{
-        setIsLoggedIn(true);
-    })
+        
+    });
 
-    const SignInClickHandler = () =>{
-        if(isLoggedIn){
-            navigate("/users");
-        }
+    const onInputChange = (event, name) =>{
+
     }
 
     return (
         <>
-            <h3>Sign page</h3>
-            <button className="btn btn-success" onClick={()=>SignInClickHandler()}>Sgin in</button>
-            <Link to="/users">Link Users</Link>
-            <br />
-            <a href="/aboutus">HREF About us</a>
+            <div>
+                <h2>Login</h2>
+                <div>
+                    <input type="text" placeholder="Username" onChange={(event)=>onInputChange(event, "username")} />
+                </div>
+                <div>
+                    <input type="password" placeholder="Password" onChange={(event)=>onInputChange(event, "password")} />
+                </div>
+            </div>
         </>
     )
 }
