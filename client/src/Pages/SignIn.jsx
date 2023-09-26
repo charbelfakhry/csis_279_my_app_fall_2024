@@ -1,5 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import UserService from "../services/UserService";
 
 const SignIn = () => {
 
@@ -13,20 +14,32 @@ const SignIn = () => {
         
     });
 
-    const onInputChange = (event, name) =>{
+    const handleLogin = async(event) => {
+        event.preventDefault();
 
+        let user = {
+            username,
+            password
+        };
+
+        const response = await UserService.authenticate(user);
+        console.log(response);
+        
     }
 
     return (
         <>
-            <div>
+            <div className="login-container">
                 <h2>Login</h2>
                 <div>
-                    <input type="text" placeholder="Username" onChange={(event)=>onInputChange(event, "username")} />
+                    <input type="text" placeholder="Username" onChange={(event)=>setUsername(event.target.value)} />
                 </div>
                 <div>
-                    <input type="password" placeholder="Password" onChange={(event)=>onInputChange(event, "password")} />
+                    <input type="password" placeholder="Password" onChange={(event)=>setPassword(event.target.value)} />
                 </div>
+                <button className="btn btn-sm fw-bold" style={{backgroundColor: "grey"}} onClick={handleLogin}>
+                    Login
+                </button>
             </div>
         </>
     )

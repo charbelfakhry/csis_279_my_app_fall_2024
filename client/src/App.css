@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+.login-container{
+  max-width: 300px;
+  margin: 0;
+  padding: 20px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+
+  /* center the login container */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  h2{
+    text-align: center;
+    color: #333;
+  }
+
+  
+
+}
