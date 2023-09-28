@@ -6,8 +6,9 @@ const authenticate = async (data) =>{
     console.log(email, password);
     const sql = `SELECT * FROM users
     WHERE user_email = ? AND user_password = ?`;
+    console.log(sql);
     try {
-        const user = await db.query(sql, [email, password]);
+        const user = await query(sql, [email, password]);
 
         if (!user) {
             return { status: 401, message: "cannot login with these credentials!" }

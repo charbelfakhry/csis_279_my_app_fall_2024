@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {RiUserFill, RiLockPasswordFill} from 'react-icons/ri';
 import UserService from "../services/UserService";
 import { toast } from "react-toastify";
@@ -7,6 +7,10 @@ const Login = ({ onLogin }) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(()=>{
+        
+    })
 
 
     const handleLogin = async() =>{
@@ -24,7 +28,9 @@ const Login = ({ onLogin }) => {
                 const authenticatedUser = result?.data;
                 console.log(authenticatedUser);
                 localStorage.setItem("user", JSON.stringify(authenticatedUser));
-                onLogin();
+
+                
+                //onLogin();
             }
         }
     }

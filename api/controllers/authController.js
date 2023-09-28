@@ -12,10 +12,10 @@ const authenticateController = async(req, res)=>{
 
     if(result.status === 200){
         // generate the JWT token and send it back to React. to be later implemented
-        const token = jwt.sign({userId: result?.user?.client_id}, secretKey);
-        console.log(token);
+        //const token = jwt.sign({userId: result?.user?.client_id}, secretKey);
+        //console.log(token);
 
-        res.status(200).json(result.message, result.user, token);
+        res.status(200).json(result.message, result.user, "token");
     }
     //inappropriate request
     res.status(result.status).json(result.message);
