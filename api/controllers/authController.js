@@ -1,37 +1,28 @@
-const authService = require("../services/authService")
-
-const loadAllUser = async(req, res) => {
-    try{
-        const result = await authService.loadUsers();
-        res.status(200).json({message: "Ok", result: result});
-    }catch(error){
-        res.status(500).json({message: "Internal server erorr"});
-    }
-}
+const {authenticate} = require("../services/authService")
 
 const authenticateController = async(req, res)=>{
     const {user} = req.body;
+    // check if the variable email is not null and not undefined
+    //validation 
     if(!user){
-        res.status(403).json({message: 'missing data'});
+        res.status(400).json({message: "Bad Request!"});
     }
+    const result = await authenticate(user);
+    console.log(result);
 
-    
+    if(result.status === 200){
+        // generate the JWT token and send it back to React. to be later implemented
+        const token = jwt.sign({userId: result?.user?.client_id}, secretKey);
+        console.log(token);
 
-    try{
-        const user = await authService.loadUsers1(user?.username, user?.password);
-        // if(user.length > 0){
-        //     res.status(200).json({message: "authenticated", user});
-        // }else{
-        //     res.status(401).json({message:  "Unauthorized"});
-        // }
-    }catch(erorr){
-        res.status(500).json({message: "Internal server error"});
+        res.status(200).json(result.message, result.user, token);
     }
+    //inappropriate request
+    res.status(result.status).json(result.message);
 
 
 }
 
 module.exports = {
-    loadAllUser,
     authenticateController,
 }

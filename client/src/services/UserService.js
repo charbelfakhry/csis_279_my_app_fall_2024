@@ -6,7 +6,7 @@ const loadUsers = () =>{
 
 const authenticate = (user) => 
 {
-    return http.post(`/auth/authenticate`, {user});
+    return http.post(`/auth/authenticate`, user);
 }
 
 const UserService = {

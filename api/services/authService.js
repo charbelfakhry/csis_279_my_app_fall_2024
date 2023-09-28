@@ -1,30 +1,24 @@
 const { query } = require("../database/db");
 
 
-const loadUsers = async() =>{
-    try{
-        let sql = `select * from users`;
-        const result = await query(sql);
-        return result;
-    }catch(error){
-        console.error(error);
-        throw new Error(error);
-    }
-}
+const authenticate = async (data) =>{
+    const { email, password } = data;
+    console.log(email, password);
+    const sql = `SELECT * FROM users
+    WHERE user_email = ? AND user_password = ?`;
+    try {
+        const user = await db.query(sql, [email, password]);
 
-const loadUsers1 = async(username, password) =>{
-    try{
-        let sql = `select * from users where username = ?
-        and password = ?`;
-        const result = await query(sql, [username, password]);
-        return result;
-    }catch(error){
-        console.error(error);
-        throw new Error(error);
-    }
-}
+        if (!user) {
+            return { status: 401, message: "cannot login with these credentials!" }
+        }
 
+        return { status: 200, message: "Successful", user: user }
+    } catch (error) {
+        return { status: 500, message: "internal error" }
+    }
+
+}
 module.exports = {
-    loadUsers,
-    loadUsers1,
+    authenticate,
 }
