@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {RiUserFill, RiLockPasswordFill} from 'react-icons/ri';
 import UserService from "../services/UserService";
 import { toast } from "react-toastify";
+import { setUser } from "../UTILS/localStorageUtils";
 
 const Login = ({ onLogin }) => {
 
@@ -19,18 +20,17 @@ const Login = ({ onLogin }) => {
                 email: username,
                 password
             }
-            const result = await UserService.authenticate({user});
-            if(result?.data === "Unauthenticated"){
-                toast.error("WRONG USERNAME/PASSWORD");
+            const result = await UserService.authenticate({user}).catch(error=>{
+                //toast.error("WRONG USERNAME/PASSWORD");
+                alert("Wrong username/password");
                 reset();
-            }else{
-                //local storage
-                const authenticatedUser = result?.data;
-                console.log(authenticatedUser);
-                localStorage.setItem("user", JSON.stringify(authenticatedUser));
+            });
+            if(result?.data?.message === "Successful"){
+                const authenticatedUser = result?.data?.user;
+                setUser(authenticatedUser);
 
                 
-                //onLogin();
+                onLogin();   
             }
         }
     }

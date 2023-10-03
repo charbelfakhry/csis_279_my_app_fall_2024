@@ -5,7 +5,7 @@ const authenticateController = async(req, res)=>{
     // check if the variable email is not null and not undefined
     //validation 
     if(!user){
-        res.status(400).json({message: "Bad Request!"});
+        return res.status(401).json({message: "Unauthorized"});
     }
     const result = await authenticate(user);
     console.log(result);
@@ -15,7 +15,7 @@ const authenticateController = async(req, res)=>{
         //const token = jwt.sign({userId: result?.user?.client_id}, secretKey);
         //console.log(token);
 
-        res.status(200).json(result.message, result.user, "token");
+        return res.status(200).json({message: result.message, user: result.user, token: "token"});
     }
     //inappropriate request
     res.status(result.status).json(result.message);

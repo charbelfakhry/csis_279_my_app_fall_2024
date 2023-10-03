@@ -9,12 +9,11 @@ const authenticate = async (data) =>{
     console.log(sql);
     try {
         const user = await query(sql, [email, password]);
-
-        if (!user) {
+        if(user && user.length){
+            return { status: 200, message: "Successful", user: user[0] }
+        }else{
             return { status: 401, message: "cannot login with these credentials!" }
         }
-
-        return { status: 200, message: "Successful", user: user }
     } catch (error) {
         return { status: 500, message: "internal error" }
     }
