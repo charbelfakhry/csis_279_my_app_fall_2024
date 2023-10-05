@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Outlet, Route, Routes, BrowserRouter as Router, Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import DateTimeLabel from "./utils/DateTimeLabel";
 import { FiLogOut, FiEdit } from "react-icons/fi";
 
 
@@ -43,7 +42,6 @@ function App() {
       <div className="App">
         {isLoggedIn && (
           <div>
-            <DateTimeLabel />
             <nav
               className="navbar navbar-expand-lg"
               style={{ backgroundColor: "#3498db" }}
@@ -71,62 +69,17 @@ function App() {
                   id="navbarNav"
                 >
                   <ul className="navbar-nav ms-auto">
-                    <li className="nav-item">
-                      <Link to="/video" className="nav-link text-light">
-                        Video Player
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/desktopNotification" className="nav-link text-light">
-                        Desktop Not.
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/dashboard" className="nav-link text-light">
-                        Dashboard
-                      </Link>
-                    </li>
                     {isAdmin() && (
                       <li className="nav-item">
                         <Link to="/users" className="nav-link text-light">
-                          Users
+                          Users Admin
                         </Link>
                       </li>
                     )}
                     <li className="nav-item">
-                      <Link to="/products" className="nav-link text-light">
-                        Products
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/suppliers" className="nav-link text-light">
-                        Suppliers
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/shifts" className="nav-link text-light">
-                        Shifts
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/categories" className="nav-link text-light">
-                        Categories
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/invoice" className="nav-link text-light">
-                        Invoice
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/typyicode" className="nav-link text-light">
-                        TYPYICODE EXT.
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/resizableDiv" className="nav-link text-light">
-                        ResizableDiv
-                      </Link>
+                    <Link to="/users" className="nav-link text-light">
+                          Users
+                    </Link>
                     </li>
                     <li className="nav-item dropdown">
                       <button
@@ -151,9 +104,9 @@ function App() {
                           </button>
                         </li>
                         <li>
-                          <Link to="/userForm" className="dropdown-item">
+                          {/* <Link to="/userForm" className="dropdown-item">
                             <FiEdit className="dropdown-item-icon" /> Edit Profile
-                          </Link>
+                          </Link> */}
                         </li>
                       </ul>
                     </li>
