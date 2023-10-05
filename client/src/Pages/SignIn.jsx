@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {RiUserFill, RiLockPasswordFill} from 'react-icons/ri';
 import UserService from "../services/UserService";
 import { toast } from "react-toastify";
-import { setUser } from "../UTILS/localStorageUtils";
+import { setLocalStorageUser} from "../UTILS/localStorageUtils";
 
 const Login = ({ onLogin }) => {
 
@@ -26,8 +26,10 @@ const Login = ({ onLogin }) => {
                 reset();
             });
             if(result?.data?.message === "Successful"){
-                const authenticatedUser = result?.data?.user;
-                setUser(authenticatedUser);
+                let authenticatedUser = result?.data?.user;
+                authenticatedUser.token = result?.data?.token;
+                console.log(authenticatedUser);
+                setLocalStorageUser(authenticatedUser);
 
                 
                 onLogin();   

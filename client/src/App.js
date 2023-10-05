@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { Outlet, Route, Routes, BrowserRouter as Router, Link, useNavigate } from "react-router-dom";
+import { Outlet, Route, Routes, BrowserRouter as Router, Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FiLogOut, FiEdit } from "react-icons/fi";
+import UserTable from './Components/users/UserTable';
+import AboutUs from './Pages/AboutUs';
+import SignIn from './Pages/SignIn';
+import { getLocalStorageUser } from "./UTILS/localStorageUtils";
 
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
-  const navigate = useNavigate();
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -20,18 +23,11 @@ function App() {
     setIsNavCollapsed(true); // Reset the navbar collapse state
   };
 
-  const getUser = () => {
-    const parsedUser = JSON.parse(localStorage.getItem("user"));
-    return parsedUser;
-  };
-
-  const getUserNameFromLocalStorage = () => {
-    return getUser()?.client_first_name;
-  };
+  
 
   const isAdmin = () => {
-    const user = getUser();
-    if (user.role === "admin") {
+    const user = getLocalStorageUser();
+    if (user?.role === "admin") {
       return true;
     }
     return false;
@@ -80,6 +76,19 @@ function App() {
                     <Link to="/users" className="nav-link text-light">
                           Users
                     </Link>
+                    </li>
+                    <li className="nav-item">
+                    <Link to="/aboutus" className="nav-link text-light">
+                          About Us
+                    </Link>
+                    </li>
+                    <li className="nav-item">
+                      <button
+                        className="dropdown-item"
+                        onClick={handleLogout}
+                      >
+                        <FiLogOut className="dropdown-item-icon" /> Logout
+                      </button>
                     </li>
                     <li className="nav-item dropdown">
                       <button
