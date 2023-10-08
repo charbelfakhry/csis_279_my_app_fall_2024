@@ -23,7 +23,7 @@ function App() {
     setIsNavCollapsed(true); // Reset the navbar collapse state
   };
 
-  
+
 
   const isAdmin = () => {
     const user = getLocalStorageUser();
@@ -59,9 +59,8 @@ function App() {
                   <span className="navbar-toggler-icon"></span>
                 </button>
                 <div
-                  className={`${
-                    isNavCollapsed ? "collapse" : ""
-                  } navbar-collapse`}
+                  className={`${isNavCollapsed ? "collapse" : ""
+                    } navbar-collapse`}
                   id="navbarNav"
                 >
                   <ul className="navbar-nav ms-auto">
@@ -73,52 +72,44 @@ function App() {
                       </li>
                     )}
                     <li className="nav-item">
-                    <Link to="/users" className="nav-link text-light">
-                          Users
-                    </Link>
+                      <Link to="/users" className="nav-link text-light">
+                        Users
+                      </Link>
                     </li>
                     <li className="nav-item">
-                    <Link to="/aboutus" className="nav-link text-light">
-                          About Us
-                    </Link>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        className="dropdown-item"
-                        onClick={handleLogout}
-                      >
-                        <FiLogOut className="dropdown-item-icon" /> Logout
-                      </button>
+                      <Link to="/aboutus" className="nav-link text-light">
+                        About Us
+                      </Link>
                     </li>
                     <li className="nav-item dropdown">
-                      <button
-                        className="nav-link dropdown-toggle btn btn-link text-light"
-                        id="navbarDropdown"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <FiEdit className="dropdown-icon" />{" "}
-                        {/* Edit Profile Icon */}
-                      </button>
-                      <ul
-                        className="dropdown-menu dropdown-menu-end"
-                        aria-labelledby="navbarDropdown"
-                      >
-                        <li>
-                          <button
-                            className="dropdown-item"
-                            onClick={handleLogout}
-                          >
-                            <FiLogOut className="dropdown-item-icon" /> Logout
-                          </button>
-                        </li>
-                        <li>
-                          {/* <Link to="/userForm" className="dropdown-item">
-                            <FiEdit className="dropdown-item-icon" /> Edit Profile
-                          </Link> */}
-                        </li>
-                      </ul>
-                    </li>
+                    <button
+                      className="nav-link dropdown-toggle btn btn-link text-light"
+                      id="navbarDropdown"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <FiEdit className="dropdown-icon" />{" "}
+                      {/* Edit Profile Icon */}
+                    </button>
+                    <ul
+                      className="dropdown-menu dropdown-menu-end"
+                      aria-labelledby="navbarDropdown"
+                    >
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          onClick={handleLogout}
+                        >
+                          <FiLogOut className="dropdown-item-icon" /> Logout
+                        </button>
+                      </li>
+                      <li>
+                        <Link to="/userForm" className="dropdown-item">
+                          <FiEdit className="dropdown-item-icon" /> Edit Profile
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
                   </ul>
                 </div>
               </div>
@@ -131,7 +122,7 @@ function App() {
               <>
                 <Route path="/users" element={<UserTable />} />
                 <Route path="/aboutus" element={<AboutUs />} />
-                
+
               </>
             ) : (
               <Route path="/" element={<SignIn onLogin={handleLogin} />} />

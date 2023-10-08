@@ -1,0 +1,78 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .heading {
+    text-align: center;
+    color: #404040;
+    padding: 20px;
+  }
+  
+  .wrapper {
+    border-radius: 5px;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+  
+  .resizable-box {
+    position: absolute;
+    border: 2px solid red;
+    width: 40vh;
+    height: 100vh;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 15px;
+    min-height: 15px;
+    background-color: transparent; 
+  }
+  
+  .resizable-box .resizer {
+    position: absolute;
+    background: transparent; /* Set the background color to transparent */
+  }
+  
+  .resizable-box .resizer.rr {
+    cursor: col-resize;
+    height: 100%;
+    right: 0;
+    top: 0;
+    width: 5px;
+  }
+  
+  .resizable-box .resizer.rt {
+    cursor: row-resize;
+    height: 5px;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  
+  .resizable-box .resizer.rb {
+    cursor: row-resize;
+    height: 5px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .resizable-box .resizer.rl {
+    cursor: col-resize;
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 5px;
+  }
+
+  .menu-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  

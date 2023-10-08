@@ -1,7 +1,12 @@
+import { getToken } from "../UTILS/localStorageUtils";
 import http from "../http-common";
 
-const loadUsers = () =>{
-    return http.get(`/auth/users`);
+const getAll = () =>{
+    return http.get(`/auth/users`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    });
 }
 
 const authenticate = (user) => 
@@ -10,7 +15,7 @@ const authenticate = (user) =>
 }
 
 const UserService = {
-    loadUsers,
+    getAll,
     authenticate,
 }
 

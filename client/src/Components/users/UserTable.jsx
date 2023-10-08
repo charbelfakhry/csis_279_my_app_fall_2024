@@ -1,147 +1,120 @@
-import {React, useEffect, useState} from "react";
-import UserForm from "./UserForm";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
+import { Link, useNavigate} from "react-router-dom";
 import UserService from "../../services/UserService";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { AiOutlineUserAdd, AiFillDelete, AiFillEdit } from "react-icons/ai";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+
+//onCreation complete of this Component. The first method react useEffect
 
 const UserTable = () => {
-    const [users, setUsers] = useState([]);
-    const [selectedUser, setSelectedUser] = useState(null);
 
-    // on creation complete
-    useEffect(()=>{
-        setUsers(dummyUsers());
-        loadUsersFromDB();
+    const [persons, setPersons] = useState([]);
+    const [person, setPerson] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedPersonId, setSelectedPersonId] = useState(0);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        loadUsers();
     }, []);
 
-    const loadUsersFromDB = async() =>{
-        let users = await UserService.loadUsers();
-        users = users?.data?.result;
-        console.log(users);
+    const loadUsers = async () => {
+        const persons = await UserService.getAll();
+        setPersons(persons?.data);
     }
 
-    const dummyUsers = () => {
-        var users = [];
-        for(let i = 0; i < 10; i++)
-        {
-            let user = {
-                id: i,
-                name: `name ${i}`,
-                password: `passord ${i}`,
-                grade: randomInt(55, 100),
-            }
-            users.push(user);
-        }
-        return users;
+    const selectClickHandler = (event, person) => {
+        navigate({
+            pathname: `/userForm`,
+            state: { user: person }
+        });
     }
 
-    const addUser = (event) =>{
-        event.preventDefault();
-        const user = {
-            id: users.length,
-            name: "name "+users.length,
-            password: "pass"+users.length,
-            grade: randomInt(55, 100),
-        }
-        setUsers([...users, user]);
+    const handleConfirmDelete = () => {
+        UserService.remove(selectedPersonId)
+            .then((res) => {
+                toast.success(res?.data?.message, {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 2000,
+                });
+                loadUsers();
+            })
+            .catch((error) => {
+                console.log(error);
+                toast.error("Failed to delete person"); // Displaying an error toast message using react-toastify
+            }).finally(() => {
+                setShowModal(false);
+                setSelectedPersonId(0);
+            });
     }
 
-    const selectUser = (user) =>{
-        console.log(user);
-        setSelectedUser(user);
-    }
+    const deleteClickHandler = (event, id) => {
+        setSelectedPersonId(id);
+        setShowModal(true);
+    };
 
-    //Function for deleting user, with id as param
-    const deleteUser = (id) => {
-        const updatedUsers = users.filter(user => user.id !== id);
-        
-        // same as filter.
-        const filteredUsers = []
-        for (let i = 0; i < users.length; i++) {
-            if (users[i].id !== id) {
-                filteredUsers.push(users[i]);
-            }
-        }
-        setUsers(filteredUsers);
-        // or
-        //setUsers(updatedUsers);
-    }
-
-    const randomInt = (min, max) => {
-        let num = Math.floor(Math.random() * (max - min + 1) + min); 
-        return num;
-    }
-
-    const updateUser1 = (user) =>{
-
-        let updatedUsers = users;
-        console.log(users)
-        for(let i = 0; i < updatedUsers.length; i++)
-        {
-            let item = updatedUsers[i];
-            if(item.id === user?.id){
-                updatedUsers[i] = user;
-            }
-        }
-        console.log(updatedUsers);
-        setUsers(updatedUsers);
-
-    }
-
-    const updateUser2 = (user) =>{
-
-        let updatedUsers = users.map((item) => (
-            item.id === user.id ? {
-                id: user.id,
-                name: user.name,
-                password: user.password,
-                grade: user.grade
-            } : item)
-        )
-
-        setUsers(updatedUsers);
-
-    }
-
-    // const saveUser = () => {
-    //     let temp = editedUser;
-    //     temp.id = selectedUser.id;
-
-    //     let tempUsers = users.filter(u => u.id !== temp.id);
-    //     tempUsers.unshift(temp);
-
-    //     setUsers(tempUsers);
-    // };
-    
-
-    return(
+    return (
         <>
-            <button onClick={(event)=>addUser(event)} className="btn btn-sm btn-secondary">Add User</button>
-            <table className="table table-dark table-striped">
-                <thead>
-                    <th>ID</th>
-                    <th>NAME</th>
-                    <th>PASSWORD</th>
-                    <th>Grade</th>
-                </thead>
-                <tbody>
-                    {
-                        users.map((item, index)=>{
-                            return(
-                                <tr key={index}>
-                                    <td>{item.id}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.passowrd}</td>
-                                    <td>{item.grade}</td>
-                                    <td> <button onClick={()=>deleteUser(item.id)} className="btn btn-danger">Delete User </button></td>
-                                    <td> <button onClick={()=>selectUser(item)} className="btn btn-secondary">Select User </button></td>
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </table>
-            <UserForm user={selectedUser} updateUser={updateUser2} />
+            <div className="container">
+                <h3>Persons page.</h3>
+                {/* <button className="btn btn-secondary btn-sm" style={{float: "left"}} onClick={addNewRecord}>Insert</button> */}
+                <Link to="/userForm" className="btn btn-primary btn" style={{ float: "left" }}><AiOutlineUserAdd /></Link>
+                <table className="table w-100">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>FirstName</th>
+                            <th>LastName</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Select</th>
+                            <th>Del.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            persons.map((item, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td>{item.id}</td>
+                                        <td>{item.firstName}</td>
+                                        <td>{item.lastName}</td>
+                                        <td>{item.email}</td>
+                                        <td>{item.phone}</td>
+                                        <td><button className="btn btn-success btn-sm" onClick={(event) => selectClickHandler(event, item)}><AiFillEdit /></button></td>
+                                        <td><button className="btn btn-danger btn-sm" onClick={(event) => deleteClickHandler(event, item?.id)}><AiFillDelete /></button></td>
+                                    </tr>
+                                );
+                            })
+                        }
+                    </tbody>
+                </table>
+                <p>{person?.name}</p>
+            </div>
+            <Modal show={showModal} onHide={() => setShowModal(false)}>
+                {" "}
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Are you sure you want to delete ?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowModal(false)}>
+                        No
+                    </Button>
+                    <Button variant="danger" onClick={handleConfirmDelete}>
+                        Yes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
-    )
-}
+    );
+
+};
 
 export default UserTable;
