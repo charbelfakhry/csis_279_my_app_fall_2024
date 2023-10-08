@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { Outlet, Route, Routes, BrowserRouter as Router, Link, useNavigate } from "react-router-dom";
+import { Outlet, Route, Routes, BrowserRouter as Router, Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import DateTimeLabel from "./utils/DateTimeLabel";
 import { FiLogOut, FiEdit } from "react-icons/fi";
+import UserTable from './Components/users/UserTable';
+import AboutUs from './Pages/AboutUs';
+import SignIn from './Pages/SignIn';
+import { getLocalStorageUser } from "./UTILS/localStorageUtils";
 
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
-  const navigate = useNavigate();
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -21,18 +23,11 @@ function App() {
     setIsNavCollapsed(true); // Reset the navbar collapse state
   };
 
-  const getUser = () => {
-    const parsedUser = JSON.parse(localStorage.getItem("user"));
-    return parsedUser;
-  };
-
-  const getUserNameFromLocalStorage = () => {
-    return getUser()?.client_first_name;
-  };
+  
 
   const isAdmin = () => {
-    const user = getUser();
-    if (user.role === "admin") {
+    const user = getLocalStorageUser();
+    if (user?.role === "admin") {
       return true;
     }
     return false;
@@ -43,7 +38,6 @@ function App() {
       <div className="App">
         {isLoggedIn && (
           <div>
-            <DateTimeLabel />
             <nav
               className="navbar navbar-expand-lg"
               style={{ backgroundColor: "#3498db" }}
@@ -71,62 +65,30 @@ function App() {
                   id="navbarNav"
                 >
                   <ul className="navbar-nav ms-auto">
-                    <li className="nav-item">
-                      <Link to="/video" className="nav-link text-light">
-                        Video Player
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/desktopNotification" className="nav-link text-light">
-                        Desktop Not.
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/dashboard" className="nav-link text-light">
-                        Dashboard
-                      </Link>
-                    </li>
                     {isAdmin() && (
                       <li className="nav-item">
                         <Link to="/users" className="nav-link text-light">
-                          Users
+                          Users Admin
                         </Link>
                       </li>
                     )}
                     <li className="nav-item">
-                      <Link to="/products" className="nav-link text-light">
-                        Products
-                      </Link>
+                    <Link to="/users" className="nav-link text-light">
+                          Users
+                    </Link>
                     </li>
                     <li className="nav-item">
-                      <Link to="/suppliers" className="nav-link text-light">
-                        Suppliers
-                      </Link>
+                    <Link to="/aboutus" className="nav-link text-light">
+                          About Us
+                    </Link>
                     </li>
                     <li className="nav-item">
-                      <Link to="/shifts" className="nav-link text-light">
-                        Shifts
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/categories" className="nav-link text-light">
-                        Categories
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/invoice" className="nav-link text-light">
-                        Invoice
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/typyicode" className="nav-link text-light">
-                        TYPYICODE EXT.
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/resizableDiv" className="nav-link text-light">
-                        ResizableDiv
-                      </Link>
+                      <button
+                        className="dropdown-item"
+                        onClick={handleLogout}
+                      >
+                        <FiLogOut className="dropdown-item-icon" /> Logout
+                      </button>
                     </li>
                     <li className="nav-item dropdown">
                       <button
@@ -151,9 +113,9 @@ function App() {
                           </button>
                         </li>
                         <li>
-                          <Link to="/userForm" className="dropdown-item">
+                          {/* <Link to="/userForm" className="dropdown-item">
                             <FiEdit className="dropdown-item-icon" /> Edit Profile
-                          </Link>
+                          </Link> */}
                         </li>
                       </ul>
                     </li>

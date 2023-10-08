@@ -1,24 +1,24 @@
-const {authenticate, getAllUsers} = require("../services/authService")
+const {authenticate, getAllUsers} = require("../services/authService");
+var jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const authenticateController = async(req, res)=>{
     const {user} = req.body;
     // check if the variable email is not null and not undefined
     //validation 
     if(!user){
-        return res.status(401).json({message: "Unauthorized"});
+        return res.status(401).json({message: "missing data"});
     }
     const result = await authenticate(user);
-    console.log(result);
 
     if(result.status === 200){
-        // generate the JWT token and send it back to React. to be later implemented
-        //const token = jwt.sign({userId: result?.user?.client_id}, secretKey);
-        //console.log(token);
+        // generate the JWT token and send it back to React.
+        const token = jwt.sign({userId: result?.user?.client_id}, process.env.SECRET_KEY);
 
-        return res.status(200).json({message: result.message, user: result.user, token: "token"});
+        return res.status(200).json({message: result.message, user: result.user, token: token});
     }
     //inappropriate request
-    res.status(result.status).json(result.message);
+    res.status(401).json({message: "Unauthorized"});
 
 
 }
