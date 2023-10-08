@@ -1,4 +1,4 @@
-const {authenticate} = require("../services/authService")
+const {authenticate, getAllUsers} = require("../services/authService")
 
 const authenticateController = async(req, res)=>{
     const {user} = req.body;
@@ -23,6 +23,15 @@ const authenticateController = async(req, res)=>{
 
 }
 
+const getAllUsersController = async(req, res)=>{
+    try{
+        const users = await getAllUsers();
+    }catch(error){
+        res.status(500).json({error: "Internal server error"});
+    }
+}
+
 module.exports = {
     authenticateController,
+    getAllUsersController,
 }

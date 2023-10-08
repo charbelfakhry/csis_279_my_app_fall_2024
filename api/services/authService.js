@@ -17,8 +17,18 @@ const authenticate = async (data) =>{
     } catch (error) {
         return { status: 500, message: "internal error" }
     }
+}
+
+const getAllUsers = async () =>{
+    try{
+        let sql = "select * from users";
+        const users = await query(users);
+    }catch(error){
+        throw new Error(error);
+    }
 
 }
 module.exports = {
     authenticate,
+    getAllUsers
 }
