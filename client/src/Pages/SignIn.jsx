@@ -28,9 +28,7 @@ const Login = ({ onLogin }) => {
             if(result?.data?.message === "Successful"){
                 let authenticatedUser = result?.data?.user;
                 authenticatedUser.token = result?.data?.token;
-                console.log(authenticatedUser);
                 setLocalStorageUser(authenticatedUser);
-
                 
                 onLogin();   
             }

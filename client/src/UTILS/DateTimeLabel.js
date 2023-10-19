@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // you can use moment library
-const DateTimeLabel = (isMilitary) => {
+const DateTimeLabel = ({isMilitary, color}) => {
 
     const [time, setTime] = useState(new Date());
     // 00:13:44 AM 5/20/2023;
@@ -47,7 +47,9 @@ const DateTimeLabel = (isMilitary) => {
 
     return(
         <React.Fragment>
+            <label style={{color: color}}>
             {formatDate()} on {isMilitary ? formatTimeMilitary() : formatTime()}
+            </label>
         </React.Fragment>
     )
 };

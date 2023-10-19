@@ -10,7 +10,7 @@ const setLocalStorageUser = (user) =>{
 }
 
 const getToken = () => {
-    const parsedUser = JSON.parse(localStorage.getItem("user"));
+    const parsedUser = getLocalStorageUser();
     return parsedUser.token;
   };
 

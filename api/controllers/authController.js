@@ -26,6 +26,7 @@ const authenticateController = async(req, res)=>{
 const getAllUsersController = async(req, res)=>{
     try{
         const users = await getAllUsers();
+        res.status(200).json({users});
     }catch(error){
         res.status(500).json({error: "Internal server error"});
     }

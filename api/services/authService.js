@@ -22,7 +22,9 @@ const authenticate = async (data) =>{
 const getAllUsers = async () =>{
     try{
         let sql = "select * from users";
-        const users = await query(users);
+        const users = await query(sql);
+        console.log(users);
+        return users;
     }catch(error){
         throw new Error(error);
     }

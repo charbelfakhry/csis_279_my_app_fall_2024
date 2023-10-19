@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet, Route, Routes, BrowserRouter as Router, Link } from "react-router-dom";
+import { Outlet, Route, Routes, BrowserRouter as Router, Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FiLogOut, FiEdit } from "react-icons/fi";
@@ -7,6 +7,9 @@ import UserTable from './Components/users/UserTable';
 import AboutUs from './Pages/AboutUs';
 import SignIn from './Pages/SignIn';
 import { getLocalStorageUser } from "./UTILS/localStorageUtils";
+import ResizableDiv from "./Components/resizable/ResizableDiv";
+import DateTimeLabel from "./UTILS/DateTimeLabel";
+import ProductTable from "./Components/prodcut/ProductTable";
 
 
 function App() {
@@ -20,7 +23,7 @@ function App() {
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.clear();
-    setIsNavCollapsed(true); // Reset the navbar collapse state
+    setIsNavCollapsed(true);
   };
 
 
@@ -46,6 +49,7 @@ function App() {
                 <Link to="/" className="navbar-brand text-light">
                   UOB <span>{"</>"}&#60;/&#62;</span>
                 </Link>
+                <DateTimeLabel isMilitary={true} color={"white"}/>
                 <button
                   className="navbar-toggler"
                   type="button"
@@ -77,6 +81,16 @@ function App() {
                       </Link>
                     </li>
                     <li className="nav-item">
+                      <Link to="/products" className="nav-link text-light">
+                        Products
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link to="/resizablediv" className="nav-link text-light">
+                        Resizable Div
+                      </Link>
+                    </li>
+                    <li className="nav-item">
                       <Link to="/aboutus" className="nav-link text-light">
                         About Us
                       </Link>
@@ -96,12 +110,13 @@ function App() {
                       aria-labelledby="navbarDropdown"
                     >
                       <li>
-                        <button
+                        <Link
                           className="dropdown-item"
                           onClick={handleLogout}
+                          path="/"
                         >
                           <FiLogOut className="dropdown-item-icon" /> Logout
-                        </button>
+                        </Link>
                       </li>
                       <li>
                         <Link to="/userForm" className="dropdown-item">
@@ -122,6 +137,8 @@ function App() {
               <>
                 <Route path="/users" element={<UserTable />} />
                 <Route path="/aboutus" element={<AboutUs />} />
+                <Route path="/resizablediv" element={<ResizableDiv />} />
+                <Route path="/products" element={<ProductTable />} />
 
               </>
             ) : (
