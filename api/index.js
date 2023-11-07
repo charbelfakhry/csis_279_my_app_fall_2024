@@ -17,6 +17,8 @@ app.use(cors({origin: '*'}));
 
 // imports routes
 const auth = require('./routes/auth');
+const productRoute = require('./routes/product');
+const categoryRoute = require('./routes/category');
 
 app.use(express.static(buildDirectory));
 
@@ -26,6 +28,8 @@ app.get('/', (req, res)=>{
 
 // routes
 app.use('/api/auth', auth);
+app.use('/api/products', productRoute);
+app.use('/api/categories', categoryRoute);
 
 
 
